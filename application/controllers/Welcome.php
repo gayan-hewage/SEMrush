@@ -21,6 +21,7 @@ class Welcome extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('semrush');
+		$this->load->library('mongo_db');
 		$this->load->model('semrush_model');
 	}
 	public function index()
@@ -39,6 +40,10 @@ class Welcome extends CI_Controller {
 	        'offset' => 0,
 	        'export_columns' => 'Ph,Po,Nq,Cp,Ur,Tr,Tc,Co,Nr,Td'
    		));
+		
+		$collection = $this->mongo_db->db->selectCollection('Domain');
+
+		var_dump($collection);
 		
 		$data = array(
 			'domain_data' => $this->semrush->performRequest($parm = array('uip' => $_SERVER['SERVER_ADDR']))
