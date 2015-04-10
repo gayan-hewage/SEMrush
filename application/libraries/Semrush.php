@@ -121,6 +121,46 @@ class Semrush {
 							   curl_close			( $cUrl );
 		return false;		// Request timed out
 	}
+
+
+	public function filterData($result){
+		$api_data = array();
+
+		if ( preg_match ( "/^ERROR\s[0-9]+\s::[a-zA-Z0-9\s]+/i", $result ) )
+		{
+			return $result;
+			
+		}else{
+
+			$data = explode ( "\n", trim ( $result ) );
+			$fields = explode ( ";", array_shift ( $data ) );
+			
+			if ( count ( $data ) > 0 )
+			{
+				$field_data = array();
+				foreach ( $fields as $field )
+				{
+					$field_data[] = $field ;
+				}
+				array_push($api_data, $field_data);
+
+				foreach ( $data as $line )
+				{
+					$values = explode ( ";", $line, count ( $fields ) );
+					$line_data = array();
+					foreach ( $values as $value )
+					{
+						$line_data[] = $value;
+
+					}
+					array_push($api_data, $line_data);
+				}
+			}
+			return $api_data;
+		}
+
+
+	}
 	
 }
 

@@ -3,11 +3,13 @@ class Semrush_model extends CI_Model {
 
         public function __construct()
         {
-                $this->load->database();
+        	$this->load->library('cimongo');
         }
 
         public function get_all(){
-        	$query = $this->db->get('srh_domain_organic');
-        	return $query->result_array();
+        	
+			$res = $this->cimongo->get('Domain');
+            $row_dom_plan = $res->result();
+			var_dump($row_dom_plan);
         }
 }

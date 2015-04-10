@@ -21,16 +21,12 @@ class Welcome extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('semrush');
-		$this->load->library('mongo_db');
 		$this->load->model('semrush_model');
 	}
 	public function index()
 	{
 		
-		// $data = array(
-		// 	'domain_data' => $this->semrush_model->get_all()
-		// );
-
+	
 		$this->semrush->set_data(array(
 	        'query' => 'amazon.com',
 	        'type' => 'domain_organic',
@@ -41,14 +37,15 @@ class Welcome extends CI_Controller {
 	        'export_columns' => 'Ph,Po,Nq,Cp,Ur,Tr,Tc,Co,Nr,Td'
    		));
 		
-		$collection = $this->mongo_db->db->selectCollection('Domain');
+		
 
-		var_dump($collection);
+		// $this->semrush_model->get_all();
+		$this->load->view('report');
 		
-		$data = array(
-			'domain_data' => $this->semrush->performRequest($parm = array('uip' => $_SERVER['SERVER_ADDR']))
-		);
+		// $data = array(
+		// 	'domain_data' => $this->semrush->filterData($this->semrush->performRequest($parm = array('uip' => $_SERVER['SERVER_ADDR'])))
+		// );
 		
-		$this->load->view('welcome_message',$data);
+		// $this->load->view('welcome_message',$data);
 	}
 }
